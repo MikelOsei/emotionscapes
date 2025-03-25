@@ -2,20 +2,24 @@
 import { React } from 'react';
 import { QRCodeCanvas } from 'qrcode.react';
 import { useState, useEffect } from 'react';
-import { db } from "../firebase";
-import { collection, onSnapshot, addDoc } from "firebase/firestore";
 import { useRouter, useSearchParams } from 'next/navigation'
+import { increment } from 'firebase/firestore';
 import Footer from '../components/Footer'
 import useSession from '../hooks/useSession';
 
-function QRscreen({onClick, entity = "host"}) {
+function QRscreen({onClick}) {
     const params = useSearchParams();
     const router = useRouter();
-    const playerLink = "mikel.io/emotionscapes/player";
-    const { data, loading, error, updateSession, sessionId} = useSession(params.get("sessionId"));
-    const [isJoined, setIsJoined] = useState(false);
+    const [entity, setEntity] = useState("host");
+    let givenParams = params.get("sessionId");
+    const { data, loading, error, updateSession, sessionId, updateSession2} = useSession(givenParams);
 
-    console.log("Params: " + params.get("sessionId"));
+    console.log("Params: " + givenParams);
+    useEffect(() => {
+        console.log("given params: " + givenParams)
+        if (givenParams != null) setEntity("player");
+    }, []);
+
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -39,12 +43,24 @@ function QRscreen({onClick, entity = "host"}) {
     }
 
     // Get the number of players from sessionData
-    /*const players = data?.players;
-    const playerCount = players ? Object.keys(players).length : 0;*/
+    const playerCount = data?.players;
+    const playerLink = data?.playerPage;
+
+    let gameState = data?.gameState;
+
+    if (gameState === "started" && entity === "player") router.push('/player-view?' + sessionId)
+
 
     function handleClick() {
-        router.push('/host-view');
+        if (entity === "host") router.push('/host-view?' + sessionId);
+        updateSession({ "gameState": "started" });
     }
+
+    addEventListener("pagehide", (event) => {
+        updateSession({"players": increment(-1)})
+        console.log("this hoe left")}
+    );
+
 
     return (
         <div className="popup" style={{display: "flex", textAlign: "center", flexDirection: "column", alignItems: "center", justifyContent: "center"}}>
@@ -57,7 +73,7 @@ function QRscreen({onClick, entity = "host"}) {
                 <div>
                     <div>
                         <h2 id="underline">Scan to Join</h2>
-                        <QRCodeCanvas className="QR" title="QR-Code-to-join" value={'https://www.youtube.com/watch?v=p7YXXieghto'} size={400} bgColor="#F9D9F9" />
+                        <QRCodeCanvas className="QR" title="QR-Code-to-join" value={'172.19.96.1:3000/' + playerLink} size={400} bgColor="#F9D9F9" />
                         <p>Or go to: <a style={{color: "#C9FFD9", fontWeight: "bold"}} href={playerLink}>{playerLink}</a></p>
                         <button id="player-option" onClick={() => handleClick()}>Start!</button>
                     </div>
