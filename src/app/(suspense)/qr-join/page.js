@@ -4,21 +4,26 @@ import { QRCodeCanvas } from 'qrcode.react';
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation'
 import { increment } from 'firebase/firestore';
-import Footer from '../components/Footer'
-import useSession from '../hooks/useSession';
+import Footer from '../../components/Footer'
+import useSession from '../../hooks/useSession';
 
-function QRscreen({onClick}) {
+function QRscreen() {
     const params = useSearchParams();
     const router = useRouter();
     const [entity, setEntity] = useState("host");
     let givenParams = params.get("sessionId");
-    const { data, loading, error, updateSession, sessionId, updateSession2} = useSession(givenParams);
+    const { data, loading, error, updateSession, sessionId } = useSession(givenParams);
+    // Get the number of players from sessionData
+    const playerCount = data?.players;
+    const playerLink = 'emotionscapes.vercel.app/' + data?.playerPage;
+
+    let gameState = data?.gameState;
 
     console.log("Params: " + givenParams);
     useEffect(() => {
         console.log("given params: " + givenParams)
         if (givenParams != null) setEntity("player");
-    }, []);
+    }, [givenParams]);
 
 
     useEffect(() => {
@@ -33,7 +38,12 @@ function QRscreen({onClick}) {
         return () => clearInterval(interval); // Cleanup on unmount
     }, []);
 
-    // Handle loading and error states
+    useEffect(() => {
+        if (gameState === "started" && entity === "player") 
+        router.push('/player-view?sessionId=' + sessionId)
+    }, [router, entity, gameState]);
+
+
     if (loading) {
         return <div>Loading...</div>;
     }
@@ -42,24 +52,14 @@ function QRscreen({onClick}) {
         return <div>Error: {error}</div>;
     }
 
-    // Get the number of players from sessionData
-    const playerCount = data?.players;
-    const playerLink = data?.playerPage;
-
-    let gameState = data?.gameState;
-
-    if (gameState === "started" && entity === "player") router.push('/player-view?' + sessionId)
-
-
     function handleClick() {
-        if (entity === "host") router.push('/host-view?' + sessionId);
+        if (entity === "host") router.push('/host-view?sessionId=' + sessionId);
         updateSession({ "gameState": "started" });
     }
 
     addEventListener("pagehide", (event) => {
         updateSession({"players": increment(-1)})
-        console.log("this hoe left")}
-    );
+    });
 
 
     return (
@@ -73,9 +73,9 @@ function QRscreen({onClick}) {
                 <div>
                     <div>
                         <h2 id="underline">Scan to Join</h2>
-                        <QRCodeCanvas className="QR" title="QR-Code-to-join" value={'172.19.96.1:3000/' + playerLink} size={400} bgColor="#F9D9F9" />
+                        <QRCodeCanvas className="QR" title="QR-Code-to-join" value={playerLink} size={400} bgColor="#F9D9F9" />
                         <p>Or go to: <a style={{color: "#C9FFD9", fontWeight: "bold"}} href={playerLink}>{playerLink}</a></p>
-                        <button id="player-option" onClick={() => handleClick()}>Start!</button>
+                        <button id="player-option" style={{marginBottom: "50px"}} onClick={() => handleClick()}>Start!</button>
                     </div>
               </div>
             }

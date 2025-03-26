@@ -2,6 +2,7 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation'
+import { Suspense } from 'react';
 import Footer from './components/Footer'
 
 function LandingPage() {
@@ -26,10 +27,9 @@ function LandingPage() {
             <h3 className="purpose">Created by Mikel Osei-Owusu. FINE257 Creation Project</h3>
 
             <p>How will you be playing today?</p>
-
-            <button id="player-option" onClick={() => navigate("host-join")}>Hosting a session</button>
-            <button id="player-option" style={{color: "black"}} onClick={() => navigate("host-join")}>Joining a session</button>
-            <button id="player-option" onClick={() => navigate("host")}>Playing solo</button>
+                <button id="player-option" onClick={() => navigate("host-join")}>Hosting a session</button>
+                <button id="player-option" style={{color: "black"}} onClick={() => navigate("host-join")}>Joining a session</button>
+                <button id="player-option" onClick={() => navigate("host")}>Playing solo</button>
             <Footer />
         </div>
     )

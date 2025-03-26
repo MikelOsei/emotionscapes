@@ -54,6 +54,7 @@ const useSession = (existingSession) => {
           meme: "some-url",
           createdAt: new Date(),
           gameState: "waiting",
+          emotion: "neutral",
           playerPage: ""
         };
     
