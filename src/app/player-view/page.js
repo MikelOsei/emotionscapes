@@ -21,6 +21,14 @@ const PlayerView = () => {
         // router.push('/'); REMOVE AFTER TESTING PHASE
     }
 
+    useEffect(() => {
+        function setVh(e) {
+            e.preventDefault()
+        }
+        window.addEventListener('touchmove', setVh, {passive: false});
+        return () => window.removeEventListener('touchmove', setVh);
+      }, []);
+
     //const sessionData = useSession(sessionId);
     // show landscape and meme only. 
   
@@ -31,10 +39,10 @@ const PlayerView = () => {
 
     return (
         
-        <div id="play-screen">
+        <div id="play-screen" style={{overflow: "hidden"}}>
             {!isJoined && <p>Waiting...</p>}
             {isJoined && <> 
-            <div id="landscape">
+            <div id="landscape" style={{position: "fixed", top: 0}}>
                 <ParallaxBG />
             </div>
             <div id="meme"></div> {/*visible on laptop, hidden on mobile*/}

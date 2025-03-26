@@ -84,6 +84,9 @@ function Host() {
         // bg, image, and submission box (maybe), 
         // also next button functionality that
         // makes the API call */}
+          <div id="landscape">
+              <ParallaxBG />
+          </div>
 
           <div className="meme"></div>
           <SubmissionBar />

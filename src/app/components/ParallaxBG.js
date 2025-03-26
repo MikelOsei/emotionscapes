@@ -27,55 +27,17 @@ export default function ParallaxBG() {
 
 
     return (
-        <div className='parallax' >
-            <Image 
-            src={sky} 
-            alt="sky" 
-            id="parallax-sky" 
-            sizes="100vw"
-            >
-            </Image>
+        <div className='parallax'>
+            <div className='parallax-sky'> </div>
+            <div className='parallax-sun'> </div>
+            <div className='parallax-clouds'> </div>
+            <div className='parallax-mountains'> </div>
+            <div className='parallax-foreground'> </div>
+            <div className='parallax-foreground2'> </div>
 
             {/* style={{ width: '100%', height: 'auto', transform: `translateX(-${scrollX * 0.8}px)`, 
             position: 'fixed', backgroundRepeat: "repeat-y"}}* all: style={{width: "100vw", height: "100vw", backgroundRepeat: 'repeat-x'}}*/}
-
-
-            <Image 
-            src={sun} 
-            alt="sun" 
-            id="parallax-sun" 
-            style={{ transform: `translateX(-${scrollX * 0.2}px)` }}>
-            </Image>
-
-            <Image
-            src={mountains} 
-            alt="mountains" 
-            id="parallax-mountains" 
-            style={{ transform: `translateX(-${scrollX * 0.7}px)` }}>
-            </Image>
-
-            <Image 
-            src={clouds} 
-            alt="clouds" 
-            id="parallax-clouds" 
-            style={{ transform: `translateX(-${scrollX * 0.4}px)` }}>
-            </Image>
-            
-            <Image
-            src={secondaryForeground} 
-            alt="foreground-2" 
-            id="parallax-fg" 
-            style={{ transform: `translateX(-${scrollX * 0.8}px)` }}>
-            </Image>
-            
-            <Image
-            src={foreground} 
-            alt="foreground" 
-            id="parallax-fg" 
-            style={{ transform: `translateX(-${scrollX * 0.9}px)` }}>
-            </Image>
-            
-        </div>
+        </div>    
     )
 }
 

@@ -6,7 +6,7 @@ function SubmissionBar(visibility = true) {
     const [isVisible, setVisible] = useState(visibility);
 
     return (
-        <div id="input-submit">
+        <div id="input-submit" style={{top: "50vh", position: "absolute", zIndex: "10"}}>
             <button className="hide-show" onClick={() => setVisible(!isVisible)}>
                 {isVisible ? "Hide" : "Show"}
             </button>
