@@ -13,6 +13,7 @@ const PlayerView = () => {
     const router = useRouter();
     const [isJoined, setIsJoined] = useState(true);
     const [emotion, setEmotion] = useState("neutral");
+    const [isUIVisible, setUIVisible] = useState(true);
 
     if (params.get("sessionId") === "") {
         // reroute to main page.
@@ -32,25 +33,6 @@ const PlayerView = () => {
         return () => window.removeEventListener('touchmove', setVh);
       }, []);
 
-      useEffect(() => {
-        if (data && data.emotion) {
-            const updatedFilter = getHslFilter(data.emotion);
-            setEmotion(data.emotion); // Update the emotion state from session data
-        }
-    }, [data?.emotion]);
-
-    const getHslFilter = (emotion) => {
-        switch (emotion) {
-            case "Sadness": return "hue-rotate(220deg) saturate(50%)"; // Blue tones
-            case "Joy": return "hue-rotate(30deg) saturate(120%)"; // Warm tones (yellow/pink)
-            case "Love": return "hue-rotate(330deg) saturate(150%)"; // Pinkish hues
-            case "Anger": return "hue-rotate(0deg) saturate(150%)"; // Reddish tones
-            case "Fear": return "hue-rotate(270deg) saturate(80%)"; // Dark purple/grayish tones
-            case "Surprise": return "hue-rotate(60deg) saturate(130%)"; // Bright golden hues
-            default: return "";
-        }
-    };
-
     //const sessionData = useSession(sessionId);
     // show landscape and meme only. 
   
@@ -65,11 +47,17 @@ const PlayerView = () => {
             {!isJoined && <p>Waiting...</p>}
             {isJoined && <> 
             <div id="landscape" style={{position: "fixed", top: 0}}>
-                <ParallaxBG />
+                <ParallaxBG sessionId={givenParams}/>
             </div>
             <div id="meme"></div> {/*visible on laptop, hidden on mobile*/}
             
-            <SubmissionBar /> </>}
+            {isUIVisible && <SubmissionBar />}
+              <button
+                className="hide-show"
+                style={{ justifySelf: "left", position: "absolute", zIndex: 100, width: "fit-content"}}
+                onClick={() => setUIVisible(!isUIVisible)}>
+                {isUIVisible ? "Hide UI" : "Show UI"}
+            </button> </>}
             <Footer />
         </div>
     )

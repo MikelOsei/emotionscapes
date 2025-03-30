@@ -55,7 +55,15 @@ const useSession = (existingSession) => {
           createdAt: new Date(),
           gameState: "waiting",
           emotion: "neutral",
-          playerPage: ""
+          playerPage: "",
+          Emotions: {
+            Sadness: 0, 
+            Joy: 0,
+            Love: 0,
+            Anger: 0,
+            Fear: 0,
+            Surprise: 0
+          }
         };
     
         const newDocRef = await addDoc(sessions, initialData);

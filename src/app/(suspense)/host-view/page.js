@@ -1,7 +1,6 @@
 "use client"
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { CardStack } from '../../components/ui/card-stack';
 import SubmissionBar from '../../components/submission-bar';
 import Footer from '../../components/Footer'
 import ParallaxBG from '../../components/ParallaxBG';
@@ -15,18 +14,18 @@ function Host() {
     const params = useSearchParams();
     let givenParams = params.get("sessionId");
     const [isPlaying, setPlaying] = useState(false);
-    const [isDisplayingMeme, setDisplay] = useState(false);
+    const [isUIVisible, setUIVisible] = useState(true);
     const [memeIndex, setIndex] = useState(0);
     const { data, loading, error, updateSession, sessionId } = useSession(givenParams);
-    const [filterStyle, setFilterStyle] = useState("");
+    // const [filterStyle, setFilterStyle] = useState("");
     
 
-    useEffect(() => {
+    /*useEffect(() => {
         if (data && data.emotion) {
             const updatedFilter = getHslFilter(data.emotion);
             setFilterStyle(updatedFilter);
         }
-    }, [data?.emotion]);
+    }, [data?.emotion]);*/
 
     const memes = [
         "https://miro.medium.com/v2/resize:fit:717/1*2SnXTCWsfq5UD4h3nxrtvw.png",
@@ -51,36 +50,6 @@ function Host() {
     
     const nextMeme = async () => {
         setIndex((prevIndex) => (prevIndex + 1) % memes.length);
-
-        // Update the emotion in Firebase (this would be triggered by some other logic or form input)
-        const newEmotion = getEmotionFromMeme(memeIndex); // You can link this to actual sentiment analysis
-
-        updateSession({
-            "emotion" : newEmotion
-        })
-
-  
-    };
-
-    const getEmotionFromMeme = (index) => {
-        // First 5 memes = Joy, next 5 = Sadness, etc.
-        if (index < 5) return "Joy";
-        if (index < 10) return "Sadness";
-        if (index < 12) return "Anger";
-        if (index < 17) return "Fear";
-        return "Surprise";
-    };
-
-    const getHslFilter = (emotion) => {
-        switch (emotion) {
-            case "Sadness": return "hue-rotate(220deg) saturate(50%)"; // Blue tones
-            case "Joy": return "hue-rotate(30deg) saturate(120%)"; // Warm tones (yellow/pink)
-            case "Love": return "hue-rotate(330deg) saturate(150%)"; // Pinkish hues
-            case "Anger": return "hue-rotate(0deg) saturate(150%)"; // Reddish tones
-            case "Fear": return "hue-rotate(270deg) saturate(80%)"; // Dark purple/grayish tones
-            case "Surprise": return "hue-rotate(60deg) saturate(130%)"; // Bright golden hues
-            default: return "";
-        }
     };
 
     const showStates = () => {
@@ -101,16 +70,25 @@ function Host() {
           }
           </>
           <div id="landscape" style={{position: "absolute", marginTop: 0, paddingTop: 0}}>
-              <ParallaxBG />
+              <ParallaxBG sessionId={sessionId} />
           </div>
           
-          <div className="meme" style={{ position: "absolute", zIndex: 3, marginBottom: "30px"}}>
+         {isUIVisible &&
+         <> <div className="meme" style={{ position: "absolute", zIndex: 3, marginBottom: "30px"}}>
             <img src={memes[memeIndex]} alt="Meme" style={{ maxWidth: "100%", height: "auto" }} />
             </div>
             <button id="player-option" onClick={() => nextMeme()} style={{zIndex: 10, position: "absolute", top: "30px"}}>Next Meme ➡️</button>
+          </>  }
           
+            
           <div style={{left: "2vw", position: "absolute", top: "85vh", zIndex: 9}}>
-              <SubmissionBar />
+             {isUIVisible && <SubmissionBar />}
+              <button
+                className="hide-show"
+                style={{ justifySelf: "left", position: "absolute", zIndex: 100, width: "fit-content"}}
+                onClick={() => setUIVisible(!isUIVisible)}>
+                {isUIVisible ? "Hide UI" : "Show UI"}
+            </button>
           </div>
 
           <button id="hide-show" onClick={() => showStates()} style={{ position: "absolute", zIndex: 3, top: "5px", left: "1px"}}>Demo emotionscapes</button>
