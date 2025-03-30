@@ -15,7 +15,7 @@ function QRscreen() {
     const { data, loading, error, updateSession, sessionId } = useSession(givenParams);
     // Get the number of players from sessionData
     const playerCount = data?.players;
-    const playerLink = 'https://www.emotionscapes.vercel.app/' + data?.playerPage;
+    const playerLink = 'https://emotionscapes.vercel.app/' + data?.playerPage;
 
     let gameState = data?.gameState;
 
