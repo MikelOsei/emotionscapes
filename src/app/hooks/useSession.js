@@ -7,14 +7,12 @@ import {
   setDoc,
   onSnapshot,
   arrayUnion,
-  increment
+  increment,
+  deleteDoc
 } from "firebase/firestore";
 import { db } from "../firebase";
-import { useSearchParams, useRouter } from "next/navigation";
 
 const useSession = (existingSession) => {
-  const params = useSearchParams();
-  const router = useRouter();
   const [data, setSessionData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -24,22 +22,19 @@ const useSession = (existingSession) => {
   const sessionIdRef = useRef(existingSession);
 
     useEffect(() => {
-      console.log("useEffect triggered with sessionId:", sessionId);
       const sessions = collection(db, "sessions");
       
       async function fetchDoc() {
         console.log("fetch");
+        
         if (sessionIdRef.current) {
           console.log("Session already exists, skipping creation and adding user to:", sessionIdRef.current);
-          const userSession = doc(db, "sessions", sessionIdRef.current);-
+          const userSession = doc(db, "sessions", sessionIdRef.current);
 
-
-          
           await updateDoc(userSession, {
               players: increment(1)
           });
           
-        
           // need to set session data to keep up with doc
           setDocRef(userSession);
           setSessionId(sessionIdRef.current);
@@ -121,7 +116,6 @@ const useSession = (existingSession) => {
       return false;
     }
   };
-
 
   return { data, loading, error, sessionId, updateSession };
 };

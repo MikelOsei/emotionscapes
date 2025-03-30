@@ -41,7 +41,14 @@ function QRscreen() {
     useEffect(() => {
         if (gameState === "started" && entity === "player") 
         router.push('/player-view?sessionId=' + sessionId)
-    }, [router, entity, gameState]);
+    }, [router, entity, gameState, sessionId]);
+
+    useEffect(() => {
+        window.addEventListener("pagehide", (event) => {
+            updateSession({"players": increment(-1)})
+            console.log("updated num of players")
+        })
+    });
 
 
     if (loading) {
@@ -57,13 +64,11 @@ function QRscreen() {
         updateSession({ "gameState": "started" });
     }
 
-    addEventListener("pagehide", (event) => {
-        updateSession({"players": increment(-1)})
-    });
+  
 
 
     return (
-        <div className="popup" style={{display: "flex", textAlign: "center", flexDirection: "column", alignItems: "center", justifyContent: "center"}}>
+        <div className="popup" style={{display: "flex", textAlign: "center", flexDirection: "column", alignItems: "center", justifyContent: "center", overflow: "scroll"}}>
             <div id="waiting-text">
                 <h2 id="waiting-text">Waiting for others to join<span id="wait"/></h2>
             </div>

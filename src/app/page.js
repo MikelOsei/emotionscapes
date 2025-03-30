@@ -15,7 +15,7 @@ function LandingPage() {
         } else if (view === "player") {
             router.push('/player-view'); 
         } else if (view === "host") {
-            router.push('/host-view'); // Playing solo takes to the host page as well (adjust if needed)
+            router.push('/host-view');
         }
     }
     return (
@@ -28,7 +28,7 @@ function LandingPage() {
 
             <p>How will you be playing today?</p>
                 <button id="player-option" onClick={() => navigate("host-join")}>Hosting a session</button>
-                <button id="player-option" style={{color: "black"}} onClick={() => navigate("host-join")}>Joining a session</button>
+                {/*<button id="player-option" style={{color: "black"}} onClick={() => navigate("host-join")}>Joining a session</button>*/}
                 <button id="player-option" onClick={() => navigate("host")}>Playing solo</button>
             <Footer />
         </div>

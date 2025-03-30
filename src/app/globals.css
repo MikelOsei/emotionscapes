@@ -23,12 +23,18 @@
   }
 }*/
 
+@media only screen and (max-width: 480px) {
+  #input-submit {
+    position: fixed !important;
+    margin-top: -25%;
+  }
+}
+
 html {
   overflow: hidden;
   background-repeat: no-repeat;
   scroll-behavior: none;
   height: calc(var(--vh) * 100);
-  
 }
 
 .page {
@@ -41,12 +47,9 @@ html {
   --button-secondary-hover: #f2f2f2;
 
   display: grid;
-  /* grid-template-rows: 20px 1fr 20px; */
   align-items: center;
   justify-items: center;
   min-height: 100vh;
-  /* padding: 80px; */
-  /* gap: 64px; */
 }
 
 .popup {
@@ -64,8 +67,9 @@ html {
 #input-submit {
   display: flex;
   flex-direction: column;
-  position: absolute;
   width: 100vw;
+  height: auto;
+  position: absolute;
 }
 
 .hide-show {
@@ -84,8 +88,8 @@ html {
 }
 
 .meme {
-  width: 600px;
-  height: 600px;
+  max-width: 600px;
+  max-height: 600px;
   max-height: 70%;
   max-width: 70vh;
   display: flex;
@@ -99,6 +103,7 @@ input {
   width: 80%;
   border-radius: 10px;
   padding: 10px;
+  top: 0;
 }
 
 body {
@@ -167,6 +172,8 @@ button:hover {
   margin: 0 auto;
   border: 10px solid rgba(0, 0, 0, 0.2);
   border-radius: 20px;
+  max-width: 95vw;
+
 }
 
 #waiting-text {
@@ -181,35 +188,22 @@ button:hover {
   text-decoration: underline;
 }
 
-/* constant parallax scroll effect */
-
-/*.parallax {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
+.purpose {
+  margin: auto;
+  width: 90%;
+  text-align: center; 
 }
-
-#parallax-layer {
-  position: absolute;
-  width: 300vw; /* Make it wide so it appears continuous 
-  height: 100vh;
-  top: 0;
-  left: 0;
-  will-change: transform;
-}*/
 
 /* GLITCH EFFECTS BELOW */
 
 .glitch {
-  font-size: 5.5rem;
+  max-width: 90vw;
+  font-size: 9vw;
   font-style: italic;
   font-family: Poppins;
   font-weight: 700;
-  margin: 0;
   animation: glitch 3s infinite;
   position: relative;
-  margin: 0 auto;
   text-shadow: rgb(81, 212, 188) 0px 0px 5px;
 }
 

@@ -6,32 +6,37 @@ import ParallaxBG from '../../components/ParallaxBG';
 import { useSearchParams, useRouter } from 'next/navigation';
 import "../../components/ui/parallaxBg.css"
 import useSession from '../../hooks/useSession';
+import { increment } from 'firebase/firestore';
 
 
 const PlayerView = () => {
     const params = useSearchParams();
     const router = useRouter();
     const [isJoined, setIsJoined] = useState(true);
-    const [emotion, setEmotion] = useState("neutral");
     const [isUIVisible, setUIVisible] = useState(true);
 
-    if (params.get("sessionId") === "") {
-        // reroute to main page.
-        console.log("no params received.");
-        // router.push('/'); REMOVE AFTER TESTING PHASE
+    if (!params.get("sessionId")) {
+        router.push('/'); 
+        alert("No session ID given. Please try again, and make sure your link is valid.")
     }
 
     const givenParams = params.get("sessionId");
 
     const { data, loading, error, updateSession, sessionId } = useSession(givenParams);
 
-    useEffect(() => {
+    /*useEffect(() => {
         function setVh(e) {
             e.preventDefault()
         }
         window.addEventListener('touchmove', setVh, {passive: false});
         return () => window.removeEventListener('touchmove', setVh);
-      }, []);
+      }, []);*/
+
+    useEffect(() => {
+        if (data?.gameState === "ended") {
+            setIsJoined(false);
+        }
+    }, [data?.gameState]);
 
     //const sessionData = useSession(sessionId);
     // show landscape and meme only. 
@@ -44,7 +49,6 @@ const PlayerView = () => {
     return (
         
         <div id="play-screen" style={{overflow: "hidden"}}>
-            {!isJoined && <p>Waiting...</p>}
             {isJoined && <> 
             <div id="landscape" style={{position: "fixed", top: 0}}>
                 <ParallaxBG sessionId={givenParams}/>
@@ -58,6 +62,15 @@ const PlayerView = () => {
                 onClick={() => setUIVisible(!isUIVisible)}>
                 {isUIVisible ? "Hide UI" : "Show UI"}
             </button> </>}
+
+            {!isJoined &&
+            <div className="popup" style={{flexDirection: "column"}}>
+                <h1 id="waiting-text">Session Ended.</h1>
+                        <p style={{margin: "5px 20px 20px 20px"}}> {"Sorry, this session has ended or we can't find a session with that ID. If you are having trouble joining, you can always play Emotionscapes solo!"}</p>
+                    <button id="player-option" onClick={() => {
+                    router.push('/');
+                    }}>Return to home</button>
+            </div>}
             <Footer />
         </div>
     )

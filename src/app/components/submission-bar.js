@@ -7,7 +7,6 @@ function SubmissionBar() {
   const params = useSearchParams();
   const givenParams = params.get("sessionId");
 
-  //const [isVisible, setVisible] = useState(visibility);
   const [inputValue, setInput] = useState("");
   const { data, loading, error, updateSession, sessionId } = useSession(givenParams);
 
@@ -25,7 +24,7 @@ function SubmissionBar() {
     document.getElementById("input-box").style.border = "3px #40f540 solid";
 
     try {
-      const response = await fetch("http://129.153.59.141:8000/predict", {
+      const response = await fetch("https://emotion.samiyousef.ca/predict", {
         method: "POST",
         headers: {
           'Accept': '*',
@@ -51,7 +50,7 @@ function SubmissionBar() {
 
       updateSession({"emotion": "changed"});
       updateSession({"Emotions": res})
-      
+
 
      // return { res, dominantEmotion };
     } catch (error) {
