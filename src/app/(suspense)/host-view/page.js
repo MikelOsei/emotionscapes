@@ -90,7 +90,7 @@ function Host() {
             <div className="meme" style={{ position: "absolute", zIndex: 3, marginBottom: "30px"}}>
             <img src={memes[memeIndex]} alt="Meme" style={{ maxWidth: "100%", height: "auto" }} />
             </div>
-            <button id="player-option" onClick={() => nextMeme()} style={{zIndex: 10, position: "absolute", top: "30px"}}>Next Meme ➡️</button>
+            <button id="player-option" onClick={() => nextMeme()} style={{zIndex: 10, position: "absolute", top: "30px"}}>Next ➡️</button>
           </> 
         }   
           <div style={{left: "2vw", position: "absolute", top: "85vh", zIndex: 9}}>

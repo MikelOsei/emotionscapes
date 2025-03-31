@@ -30,6 +30,9 @@ function LandingPage() {
                 <button id="player-option" onClick={() => navigate("host-join")}>Hosting a session</button>
                 {/*<button id="player-option" style={{color: "black"}} onClick={() => navigate("host-join")}>Joining a session</button>*/}
                 <button id="player-option" onClick={() => navigate("host")}>Playing solo</button>
+                <a href="https://123newyearnewme.hotglue.me/emotionscapes-creation">
+                    <button role="link" id="player-option" style={{backgroundImage: "linear-gradient(to bottom, #ff9a9e,rgb(248, 137, 106))"}}>{"Hotglue.me page & Artist Statement"}</button>
+                    </a>
             <Footer />
         </div>
     )
