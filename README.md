@@ -4,4 +4,4 @@ This web app was built with React, Next.js, and Firebase for real-time updates a
 
 Created for UWaterloo's FINE257 Creation Project - Winter 2025, by Mikel Osei-Owusu.
 
-Visit the page: emotionscapes.vercel.app
+Visit the page: http://emotionscapes.vercel.app
