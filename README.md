@@ -3,3 +3,5 @@ Emotionscapes is an interactive web-based digital art project that attempts to c
 This web app was built with React, Next.js, and Firebase for real-time updates across all devices.
 
 Created for UWaterloo's FINE257 Creation Project - Winter 2025, by Mikel Osei-Owusu.
+
+Visit the page: emotionscapes.vercel.app
